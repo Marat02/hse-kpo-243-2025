@@ -2,6 +2,8 @@
 Microsoft Visual Studio Solution File, Format Version 12.00
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Example", "KPO.Example\KPO.Example.csproj", "{81C956A7-ADBE-4624-9C6C-CBF8B6D93496}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Tests", "KPO.Tests\KPO.Tests.csproj", "{F3034F6A-0B01-4790-A032-55C504833CE3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -12,5 +14,9 @@ Global
 		{81C956A7-ADBE-4624-9C6C-CBF8B6D93496}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81C956A7-ADBE-4624-9C6C-CBF8B6D93496}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81C956A7-ADBE-4624-9C6C-CBF8B6D93496}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3034F6A-0B01-4790-A032-55C504833CE3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3034F6A-0B01-4790-A032-55C504833CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3034F6A-0B01-4790-A032-55C504833CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3034F6A-0B01-4790-A032-55C504833CE3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

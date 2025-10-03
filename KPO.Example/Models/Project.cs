@@ -12,21 +12,17 @@ public class Project
 
     private List<Blueprint> _blueprints = [];
 
-    private List<Test> _tests = [];
+    private List<ITest> _tests = [];
 
     public IReadOnlyCollection<Car> Cars => _cars;
     public IReadOnlyCollection<Blueprint> Blueprints => _blueprints;
 
-    public IReadOnlyCollection<Test> Tests => _tests;
+    public IReadOnlyCollection<ITest> Tests => _tests;
 
-    public Project(Car car)
+    public Project(string name, string target)
     {
-        _cars.Add(car);
-    }
-
-    public Project()
-    {
-        _cars.Add(ServiceLocator.Resolve<Car>());
+        Name = name;
+        Target = target;
     }
     
     public void SetName(string name)
@@ -34,8 +30,13 @@ public class Project
         Name = name;
     }
 
-    public void AddTest(Test test)
+    public void AddTest(ITest test)
     {
         _tests.Add(test);
+    }
+    
+    public bool ExecuteTests()
+    {
+        return _tests.All(test => test.Execute());
     }
 }
