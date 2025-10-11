@@ -3,15 +3,24 @@ using KPO.Example.Models;
 using KPO.Example.Models.Blueprints;
 using KPO.Example.Models.Cars;
 using KPO.Example.Patternts.Builder;
+using KPO.Example.Patternts.Commands;
+using KPO.Example.Patternts.Enumerator;
 using KPO.Example.Patternts.Factories;
+using Xunit.Abstractions;
 
 namespace KPO.Tests;
 
 public class PatternTests
 {
+    private readonly ITestOutputHelper _testOutputHelper;
     private readonly string _name = "Test Project";
     private readonly string _target = "Test Target";
-    
+
+    public PatternTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
     [Fact]
     public void CarAbstractFactoryBuild_ValidCreation()
     {
@@ -125,5 +134,38 @@ public class PatternTests
 
         // Assert
         refCar1.Should().Be(refCar2);
+    }
+    
+    [Fact]
+    public void Command()
+    {
+        // Arrange
+        var invoker = new Invoker();
+        var command = new CreateProjectCommand(_name);
+
+        // Act
+        invoker.AddCommand(command);
+        invoker.ExecuteCommands();
+
+        // Assert
+        Assert.NotNull(command);
+    }
+
+    [Fact]
+    public void Enumerator()
+    {
+        var item1 = new MyItem(1, null);
+        var item2 = new MyItem(2, item1);
+        var item3 = new MyItem(3, item2);
+        
+        var enumerator = new MyEnumerator(item3);
+        var collection = new MyCollection(enumerator);
+        
+        var list = new List<int>();
+        foreach (var item in collection)
+        {
+            list.Add(item);
+            _testOutputHelper.WriteLine(item.ToString());
+        }
     }
 }
