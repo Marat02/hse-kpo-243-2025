@@ -1,9 +1,12 @@
 using KPO.Example.Models.Blueprints;
 using KPO.Example.Models.Cars;
 using KPO.Example.Models.Checks;
+using KPO.Example.Models.States;
+using KPO.Example.Models.Visitors;
 using KPO.Example.Patternts.Factories;
+using KPO.Example.Utils;
 
-namespace KPO.Example.Models;
+namespace KPO.Example.Models.Projects;
 
 public class Project
 {
@@ -24,10 +27,17 @@ public class Project
 
     private static readonly ICar ReferenceCar = new Car(1, 1);
 
+    public ProjectStatus Status { get; private set; }
+
+    public IProjectState State { get; private set; }
+
     public Project(string name, string target)
     {
+        var dao = ServiceLocator.Resolve<ProjectDao>();
         Name = name;
         Target = target;
+        Status = ProjectStatus.Draft;
+        State = new DraftProjectState();
     }
 
     public ICar GetReferenceCar()
@@ -65,16 +75,55 @@ public class Project
             return false;
 
         var car = carAbstractMethod.Build(blueprint);
-        
+
         if (car == null)
             return false;
-        
+
         _cars.Add(car);
         return true;
     }
 
+    public void SendToVerification()
+    {
+        State = State.SendToVerification();
+    }
+
     public bool ExecuteChecks()
     {
-        return _checks.All(test => test.Execute());
+        var visitor = new LogCheckVisitor();
+        foreach (var check in _checks)
+        {
+            check.Accept(visitor);
+        }
+
+        var result = _checks.All(test => test.Execute());
+        if (result)
+            State = State.SetOnWork();
+        return result;
+    }
+
+    public void Archive()
+    {
+        State = State.Archive();
+    }
+
+    public void Pause()
+    {
+        if (Status == ProjectStatus.OnWork)
+            Status = ProjectStatus.OnPause;
+    }
+    
+    public ProjectDao ToDao()
+    {
+        return new ProjectDao(Name, Target, Cars.ToArray(), Blueprints.ToArray(), Checks.ToArray());
+    }
+    
+    public void FromDao(ProjectDao dao)
+    {
+        Name = dao.Name;
+        Target = dao.Target;
+        _cars = dao.Cars.ToList();
+        _blueprints = dao.Blueprints.ToList();
+        _checks = dao.Checks.ToList();
     }
 }

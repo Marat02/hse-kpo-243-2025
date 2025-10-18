@@ -1,23 +1,22 @@
 namespace KPO.Example.Models.Cars;
 
-public class BigCar : ICar
+public class BigCar : BaseCar
 {
-    public BigCar(int id, int blueprintId, int weigth, int height, int length)
+    public BigCar(int id, int blueprintId, int weigth, int height, int length) : base(id, blueprintId)
     {
-        Id = id;
-        BlueprintId = blueprintId;
         Weigth = weigth;
         Height = height;
         Length = length;
     }
 
-    public int Id { get; }
-    
-    public int BlueprintId { get; }
-    
     public int Weigth { get; }
     
     public int Height { get; }
     
     public int Length { get; }
+    
+    public override string Serialize()
+    {
+        return $"BigCar: {Id}, {BlueprintId}, {Weigth}, {Height}, {Length}";
+    }
 }

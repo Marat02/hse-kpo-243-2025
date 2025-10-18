@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using KPO.Example.Models;
 using KPO.Example.Models.Blueprints;
 using KPO.Example.Models.Checks;
+using KPO.Example.Models.Projects;
 using KPO.Example.Patternts.Factories;
 using NSubstitute;
 using Xunit.Abstractions;
@@ -56,7 +56,7 @@ public class ProjectTests : IClassFixture<ProjectTestFixture>
         const string name = "Test Project";
         const string target = "Test Target";
         var project = new Project(name, target);
-        var test = new PartCheck();
+        var test = new PartCheck("Test", "Test");
 
         // Act
         project.AddCheck(test);
@@ -150,5 +150,31 @@ public class ProjectTests : IClassFixture<ProjectTestFixture>
         project.Cars.Should().NotContain(t => t.Id == carId);
     }
 
-    
+    [Fact]
+    public void ProjectExist_ProjectDao_ValidProjectDao()
+    {
+        // Arrange
+        const string name = "Test Project";
+        const string target = "Test Target";
+        var project = new Project(name, target);
+
+        //Act
+        project.AddBlueprint(new Blueprint(1));
+        var result = project.ToDao();
+        project.SetName("new Name");
+        project.FromDao(result);
+        var project2 = new Project("new Name", "new target");
+        project2.FromDao(result);
+
+        //Assert
+        Assert.NotNull(result);
+        result.Should().NotBeNull();
+        result.Name.Should().Be(name);
+        result.Target.Should().Be(target);
+        project.Name.Should().Be(name);
+        project.Target.Should().Be(target);
+        project2.Name.Should().Be(name);
+        project2.Target.Should().Be(target);
+        project2.Blueprints.Count.Should().Be(project.Blueprints.Count);
+    }
 }

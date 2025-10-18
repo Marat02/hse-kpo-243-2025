@@ -4,6 +4,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Example", "KPO.Example\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Tests", "KPO.Tests\KPO.Tests.csproj", "{F3034F6A-0B01-4790-A032-55C504833CE3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Example.Application", "KPO.Example.Application\KPO.Example.Application.csproj", "{1E4053C0-C29E-488E-AF55-A2BF2D6A2245}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -18,5 +20,9 @@ Global
 		{F3034F6A-0B01-4790-A032-55C504833CE3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F3034F6A-0B01-4790-A032-55C504833CE3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F3034F6A-0B01-4790-A032-55C504833CE3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1E4053C0-C29E-488E-AF55-A2BF2D6A2245}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1E4053C0-C29E-488E-AF55-A2BF2D6A2245}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1E4053C0-C29E-488E-AF55-A2BF2D6A2245}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1E4053C0-C29E-488E-AF55-A2BF2D6A2245}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

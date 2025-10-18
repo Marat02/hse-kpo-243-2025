@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\KPO.Example\KPO.Example.csproj" />
+      <ProjectReference Include="..\KPO.Example.Application\KPO.Example.Application.csproj" />
     </ItemGroup>
 
 </Project>

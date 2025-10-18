@@ -1,7 +1,7 @@
 using FluentAssertions;
-using KPO.Example.Models;
 using KPO.Example.Models.Blueprints;
 using KPO.Example.Models.Cars;
+using KPO.Example.Models.Projects;
 using KPO.Example.Patternts.Builder;
 using KPO.Example.Patternts.Factories;
 
