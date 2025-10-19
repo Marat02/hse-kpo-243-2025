@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Tests", "KPO.Tests\KPO.
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Example.Application", "KPO.Example.Application\KPO.Example.Application.csproj", "{1E4053C0-C29E-488E-AF55-A2BF2D6A2245}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Example.Infrastructure", "KPO.Example.Infrastructure\KPO.Example.Infrastructure.csproj", "{00543B6F-31E1-497C-A1AB-3D00A8DAC00E}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{1E4053C0-C29E-488E-AF55-A2BF2D6A2245}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1E4053C0-C29E-488E-AF55-A2BF2D6A2245}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{1E4053C0-C29E-488E-AF55-A2BF2D6A2245}.Release|Any CPU.Build.0 = Release|Any CPU
+		{00543B6F-31E1-497C-A1AB-3D00A8DAC00E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{00543B6F-31E1-497C-A1AB-3D00A8DAC00E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{00543B6F-31E1-497C-A1AB-3D00A8DAC00E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{00543B6F-31E1-497C-A1AB-3D00A8DAC00E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

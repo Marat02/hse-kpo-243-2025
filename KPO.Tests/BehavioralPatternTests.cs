@@ -4,13 +4,22 @@ using KPO.Example.Application.Mediators;
 using KPO.Example.Models.Cars;
 using KPO.Example.Models.Checks;
 using KPO.Example.Models.Projects;
+using KPO.Example.Patternts.Iterator;
 using Microsoft.Extensions.DependencyInjection;
+using Xunit.Abstractions;
 using IMediator = MediatR.IMediator;
 
 namespace KPO.Tests;
 
-public class BehevioralPatternTests
+public class BehavioralPatternTests
 {
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    public BehavioralPatternTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
+
     [Fact]
     public void CommandExist_CreatePRoject_ValidCreation()
     {
@@ -82,5 +91,17 @@ public class BehevioralPatternTests
         project.AddCheck(check);
         project.AddCheck(check2);
         project.ExecuteChecks();
+    }
+
+    [Fact]
+    public void MyCollectionExist_Enumerator_ValidEnumerator()
+    {
+        var collection = new MyCollection(new MyItem(1, new MyItem(2, new MyItem(3, null))));
+
+        collection.Where(t => t > 2).Select(t => t * 2);
+        foreach (var item in collection)
+        {
+            _testOutputHelper.WriteLine(item.ToString());
+        }
     }
 }

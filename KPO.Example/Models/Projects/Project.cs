@@ -10,9 +10,22 @@ namespace KPO.Example.Models.Projects;
 
 public class Project
 {
+    public Guid Id { get; private set; }
+
     public string Name { get; private set; }
 
     public string Target { get; private set; }
+
+    public IReadOnlyCollection<ICar> Cars => _cars;
+    public IReadOnlyCollection<IBlueprint> Blueprints => _blueprints;
+
+    public IReadOnlyCollection<ICheck> Checks => _checks;
+
+    public ProjectStatus Status { get; private set; }
+
+    public IProjectState State { get; private set; }
+
+    private static readonly ICar ReferenceCar = new Car(1, 1);
 
     private List<ICar> _cars = [];
 
@@ -20,24 +33,26 @@ public class Project
 
     private List<ICheck> _checks = [];
 
-    public IReadOnlyCollection<ICar> Cars => _cars;
-    public IReadOnlyCollection<IBlueprint> Blueprints => _blueprints;
-
-    public IReadOnlyCollection<ICheck> Checks => _checks;
-
-    private static readonly ICar ReferenceCar = new Car(1, 1);
-
-    public ProjectStatus Status { get; private set; }
-
-    public IProjectState State { get; private set; }
+    private IProjectRepository _projectRepository;
 
     public Project(string name, string target)
     {
-        var dao = ServiceLocator.Resolve<ProjectDao>();
         Name = name;
         Target = target;
         Status = ProjectStatus.Draft;
         State = new DraftProjectState();
+    }
+
+    public Project(IProjectRepository projectRepository)
+    {
+        _projectRepository = projectRepository;
+    }
+
+    public void Load(Guid id)
+    {
+        var projectDao = _projectRepository.GetProjectDao(id);
+        if (projectDao != null)
+            FromDao(projectDao);
     }
 
     public ICar GetReferenceCar()
@@ -115,11 +130,12 @@ public class Project
     
     public ProjectDao ToDao()
     {
-        return new ProjectDao(Name, Target, Cars.ToArray(), Blueprints.ToArray(), Checks.ToArray());
+        return new ProjectDao(Id, Name, Target, Cars.ToArray(), Blueprints.ToArray(), Checks.ToArray());
     }
-    
+
     public void FromDao(ProjectDao dao)
     {
+        Id = dao.Id;
         Name = dao.Name;
         Target = dao.Target;
         _cars = dao.Cars.ToList();
