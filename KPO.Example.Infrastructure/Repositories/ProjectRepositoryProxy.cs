@@ -32,4 +32,9 @@ public class ProjectRepositoryProxy : IProjectRepository
         }
         _projectRepository.SaveProject(project);
     }
+
+    public ProjectDao[] GetAllProjects()
+    {
+        throw new NotImplementedException();
+    }
 }

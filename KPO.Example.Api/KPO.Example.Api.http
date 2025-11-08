@@ -1,0 +1,6 @@
+@KPO.Example.Api_HostAddress = http://localhost:5188
+
+GET {{KPO.Example.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

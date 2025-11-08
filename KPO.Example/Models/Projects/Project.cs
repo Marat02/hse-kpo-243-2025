@@ -37,6 +37,7 @@ public class Project
 
     public Project(string name, string target)
     {
+        Id = Guid.NewGuid();
         Name = name;
         Target = target;
         Status = ProjectStatus.Draft;
@@ -46,6 +47,10 @@ public class Project
     public Project(IProjectRepository projectRepository)
     {
         _projectRepository = projectRepository;
+    }
+
+    public Project()
+    {
     }
 
     public void Load(Guid id)

@@ -1,3 +1,4 @@
+using System.Collections.Concurrent;
 using KPO.Example.Models.Projects;
 
 namespace KPO.Example.Infrastructure.Repositories;
@@ -7,11 +8,16 @@ namespace KPO.Example.Infrastructure.Repositories;
 /// </summary>
 public class ProjectRepository : IProjectRepository
 {
-    private readonly Dictionary<Guid, ProjectDao> _projects;
+    private readonly ConcurrentDictionary<Guid, ProjectDao> _projects;
+
+    public ProjectRepository()
+    {
+        _projects = new ConcurrentDictionary<Guid, ProjectDao>();
+    }
 
     public ProjectRepository(IReadOnlyCollection<ProjectDao> projects)
     {
-        _projects = projects.ToDictionary(p => p.Id);
+        _projects = new ConcurrentDictionary<Guid, ProjectDao>(projects.ToDictionary(p => p.Id));
     }
 
     public ProjectDao? GetProjectDao(Guid id)
@@ -22,5 +28,10 @@ public class ProjectRepository : IProjectRepository
     public void SaveProject(ProjectDao project)
     {
         _projects[project.Id] = project;
+    }
+
+    public ProjectDao[] GetAllProjects()
+    {
+        return _projects.Values.ToArray();
     }
 }

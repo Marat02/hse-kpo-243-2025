@@ -41,7 +41,7 @@ public class StructurePatternTests
         var collection = new ServiceCollection();
         collection.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(CreateCarHandler).Assembly));
         
-        var facade = new ProjectService(collection.BuildServiceProvider().GetRequiredService<IMediator>());
+        var facade = new ProjectService(collection.BuildServiceProvider().GetRequiredService<IMediator>(), new ProjectRepository());
 
         // Act
         var project = facade.CreateProject("Project 1", "Target 1");

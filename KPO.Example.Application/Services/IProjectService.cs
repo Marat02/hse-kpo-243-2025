@@ -7,5 +7,7 @@ public interface IProjectService
 {
     Project CreateProject(string name, string target);
 
+    Project[] GetProjects();
+
     ICar CreateCar();
 }
