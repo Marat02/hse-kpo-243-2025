@@ -21,7 +21,7 @@ public class BehavioralPatternTests
     }
 
     [Fact]
-    public void CommandExist_CreatePRoject_ValidCreation()
+    public void CommandExist_CreateProject_ValidCreation()
     {
         // Arrange
         var collection = new ServiceCollection();

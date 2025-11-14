@@ -35,8 +35,13 @@ public class Project
 
     private IProjectRepository _projectRepository;
 
+    public Project()
+    {
+    }
+
     public Project(string name, string target)
     {
+        Id = Guid.NewGuid();
         Name = name;
         Target = target;
         Status = ProjectStatus.Draft;

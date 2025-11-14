@@ -8,6 +8,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Example.Application", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Example.Infrastructure", "KPO.Example.Infrastructure\KPO.Example.Infrastructure.csproj", "{00543B6F-31E1-497C-A1AB-3D00A8DAC00E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Example.Api", "KPO.Example.Api\KPO.Example.Api.csproj", "{D5A40F60-6408-4641-B21E-8555EE5B3540}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "KPO.Example.MVC", "KPO.Example.MVC\KPO.Example.MVC.csproj", "{D9ADF47A-89C1-41F4-8D8F-03F7818DECC1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +34,13 @@ Global
 		{00543B6F-31E1-497C-A1AB-3D00A8DAC00E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00543B6F-31E1-497C-A1AB-3D00A8DAC00E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{00543B6F-31E1-497C-A1AB-3D00A8DAC00E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D5A40F60-6408-4641-B21E-8555EE5B3540}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D5A40F60-6408-4641-B21E-8555EE5B3540}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D5A40F60-6408-4641-B21E-8555EE5B3540}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D5A40F60-6408-4641-B21E-8555EE5B3540}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D9ADF47A-89C1-41F4-8D8F-03F7818DECC1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D9ADF47A-89C1-41F4-8D8F-03F7818DECC1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D9ADF47A-89C1-41F4-8D8F-03F7818DECC1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D9ADF47A-89C1-41F4-8D8F-03F7818DECC1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

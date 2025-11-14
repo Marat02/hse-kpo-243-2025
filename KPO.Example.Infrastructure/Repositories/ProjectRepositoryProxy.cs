@@ -15,6 +15,12 @@ public class ProjectRepositoryProxy : IProjectRepository
         this.projects = projects;
     }
 
+    public ProjectDao[] GetAll()
+    {
+        _projectRepository ??= new ProjectRepository(projects);
+        return _projectRepository.GetAll();
+    }
+
     public ProjectDao? GetProjectDao(Guid id)
     {
         if (_projectRepository == null)

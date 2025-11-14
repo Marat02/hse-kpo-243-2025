@@ -1,0 +1,30 @@
+@model KPO.Example.Models.Projects.Project[]
+
+@{
+    ViewBag.Title = "Projects";
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+<html>
+<body>
+<div>
+    <h1>@ViewData["Title"]</h1>
+
+    <ul id="projects">
+        @foreach (var project in Model)
+        {
+            <li>@project.Name</li>
+        }
+    </ul>
+
+    <h2>Create New Project</h2>
+    <form method="post" action="/Home/Create">
+        <label for="projectName">Project Name:</label>
+        <input type="text" id="projectName" name="projectName" required />
+        <button type="submit">Create Project</button>
+    </form>
+
+</div>
+</body>
+</html>
