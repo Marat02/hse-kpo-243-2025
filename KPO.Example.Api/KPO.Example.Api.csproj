@@ -5,21 +5,30 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <NoDefaultLaunchSettingsFile>True</NoDefaultLaunchSettingsFile>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.11" />
         <PackageReference Include="Swashbuckle.AspNetCore.Swagger" Version="9.0.6" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="9.0.6" />
         <PackageReference Include="Swashbuckle.AspNetCore.SwaggerUI" Version="9.0.6" />
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\KPO.CarPreOrder.Application\KPO.CarPreOrder.Application.csproj" />
       <ProjectReference Include="..\KPO.Example.Infrastructure\KPO.Example.Infrastructure.csproj" />
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\KPO.Example.Infrastructure\KPO.Example.Infrastructure.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 </Project>

@@ -1,0 +1,25 @@
+﻿services:
+  kpo.example.api:
+    image: kpo.example.api
+    build:
+      context: .
+      dockerfile: KPO.Example.Api/Dockerfile
+    ports:
+      - "8080:8080"
+    networks:
+      - kpo-network
+     
+  postgres:
+    image: postgres:15
+    environment:
+      POSTGRES_DB: "kpo"
+      POSTGRES_USER: "postgres"
+      POSTGRES_PASSWORD: "password"
+    ports:
+      - "5432:5432"
+    networks:
+      - kpo-network
+
+networks:
+  kpo-network:
+    name: kpo-network

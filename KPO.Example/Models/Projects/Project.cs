@@ -1,3 +1,4 @@
+using KPO.Example.Contracts.Events;
 using KPO.Example.Models.Blueprints;
 using KPO.Example.Models.Cars;
 using KPO.Example.Models.Checks;
@@ -34,6 +35,8 @@ public class Project
     private List<ICheck> _checks = [];
 
     private IProjectRepository _projectRepository;
+    
+    private readonly IEventBus? _eventBus;
 
     public Project()
     {
@@ -48,14 +51,15 @@ public class Project
         State = new DraftProjectState();
     }
 
-    public Project(IProjectRepository projectRepository)
+    public Project(IProjectRepository projectRepository, IEventBus eventBus)
     {
         _projectRepository = projectRepository;
+        _eventBus = eventBus;
     }
 
-    public void Load(Guid id)
+    public async Task Load(Guid id, CancellationToken cancellation)
     {
-        var projectDao = _projectRepository.GetProjectDao(id);
+        var projectDao = await _projectRepository.GetProjectDao(id, cancellation);
         if (projectDao != null)
             FromDao(projectDao);
     }
@@ -88,7 +92,7 @@ public class Project
         return true;
     }
 
-    public bool BuildCar(int blueprintId, ICarAbstractMethod carAbstractMethod)
+    public bool BuildCar(int blueprintId, string name, ICarAbstractMethod carAbstractMethod)
     {
         var blueprint = _blueprints.FirstOrDefault(b => b.Id == blueprintId);
         if (blueprint == null)
@@ -100,6 +104,12 @@ public class Project
             return false;
 
         _cars.Add(car);
+        _eventBus?.Publish(new CarBuildEvent
+        {
+            Id = car.Id,
+            Name = name,
+            Type = car is BigCar ? CarBuildType.BigCar : CarBuildType.Car
+        });
         return true;
     }
 

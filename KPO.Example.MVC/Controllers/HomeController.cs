@@ -1,6 +1,5 @@
 using System.Diagnostics;
 using KPO.Example.Application.Services;
-using KPO.Example.Models.Projects;
 using Microsoft.AspNetCore.Mvc;
 using KPO.Example.MVC.Models;
 
@@ -35,12 +34,12 @@ public class HomeController : Controller
     
     public async Task<IActionResult> Projects(CancellationToken cancellationToken)
     {
-        return View(_projectService.GetAllProjects());
+        return View(await _projectService.GetAllProjects(cancellationToken));
     }
     
     public async Task<IActionResult> Create(string projectName, CancellationToken cancellationToken)
     {
-        _projectService.CreateProject(projectName, "Target");
+        await _projectService.CreateProject(projectName, "Target", cancellationToken);
         return RedirectToAction("Projects");
     }
 }

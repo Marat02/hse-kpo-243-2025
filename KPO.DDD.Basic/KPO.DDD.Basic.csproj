@@ -7,11 +7,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\KPO.Example.Application\KPO.Example.Application.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.4" />
+      <PackageReference Include="MediatR" Version="12.5.0" />
     </ItemGroup>
 
 </Project>

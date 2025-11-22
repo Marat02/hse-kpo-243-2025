@@ -17,9 +17,9 @@ public class ProjectService : IProjectService
         _projectRepository = projectRepository;
     }
 
-    public Project[] GetAllProjects()
+    public async Task<Project[]> GetAllProjects(CancellationToken cancellation)
     {
-        var daos = _projectRepository.GetAll();
+        var daos = await _projectRepository.GetAll(cancellation);
         return daos.Select(dao =>
         {
             var project = new Project();
@@ -28,15 +28,15 @@ public class ProjectService : IProjectService
         }).ToArray();
     }
 
-    public Project CreateProject(string name, string target)
+    public async Task<Project> CreateProject(string name, string target, CancellationToken cancellation)
     {
         var project = new CreateProjectCommand(name, target).Execute();
-        _projectRepository.SaveProject(project.ToDao());
+        await _projectRepository.AddProject(project.ToDao(), cancellation);
         return project;
     }
 
-    public ICar CreateCar()
+    public async Task<ICar> CreateCar(CancellationToken cancellation)
     {
-        return _mediator.Send(new CreateCarCommand(1, 1)).GetAwaiter().GetResult();
+        return await _mediator.Send(new CreateCarCommand(1, 1), cancellation);
     }
 }

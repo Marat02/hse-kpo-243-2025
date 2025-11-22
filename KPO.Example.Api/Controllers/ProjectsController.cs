@@ -18,15 +18,17 @@ public class ProjectsController : Controller
 
     [HttpPost]
     [ProducesResponseType(StatusCodes.Status200OK, Type = typeof(ProjectView))]
-    public ProjectView CreateProject([FromBody] ProjectInfo info)
+    public async Task<ProjectView> CreateProject([FromBody] ProjectInfo info, 
+        CancellationToken cancellation)
     {
-        var project = _projectService.CreateProject(info.Name, info.Target);
+        var project = await _projectService.CreateProject(info.Name, info.Target, cancellation);
         return new ProjectView(project.Id, project.Name, project.Target);
     }
     
     [HttpGet]
-    public ProjectView[] GetProjects()
+    public async Task<ProjectView[]> GetProjects(CancellationToken cancellation)
     {
-        return _projectService.GetAllProjects().Select(p => new ProjectView(p.Id, p.Name, p.Target)).ToArray();
+        return (await _projectService.GetAllProjects(cancellation))
+            .Select(p => new ProjectView(p.Id, p.Name, p.Target)).ToArray();
     }
 }

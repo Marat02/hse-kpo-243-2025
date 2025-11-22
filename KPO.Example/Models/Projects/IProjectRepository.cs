@@ -2,9 +2,9 @@ namespace KPO.Example.Models.Projects;
 
 public interface IProjectRepository
 {
-    public ProjectDao[] GetAll();
+    public Task<ProjectDao[]> GetAll(CancellationToken cancellation);
     
-    public ProjectDao? GetProjectDao(Guid id);
+    public Task<ProjectDao?> GetProjectDao(Guid id, CancellationToken cancellation);
     
-    public void SaveProject(ProjectDao project);
+    public Task AddProject(ProjectDao project, CancellationToken cancellation);
 }

@@ -1,5 +1,5 @@
-using System.Collections.Concurrent;
 using KPO.Example.Models.Projects;
+using Microsoft.EntityFrameworkCore;
 
 namespace KPO.Example.Infrastructure.Repositories;
 
@@ -8,30 +8,25 @@ namespace KPO.Example.Infrastructure.Repositories;
 /// </summary>
 public class ProjectRepository : IProjectRepository
 {
-    private readonly ConcurrentDictionary<Guid, ProjectDao> _projects;
+    private readonly ExampleDbContext _dbContext;
 
-    public ProjectRepository()
+    public ProjectRepository(ExampleDbContext dbContext)
     {
-        _projects = new ConcurrentDictionary<Guid, ProjectDao>();
-    }
-    
-    public ProjectRepository(IReadOnlyCollection<ProjectDao> projects)
-    {
-        _projects = new ConcurrentDictionary<Guid, ProjectDao>(projects.ToDictionary(p => p.Id));
+        _dbContext = dbContext;
     }
 
-    public ProjectDao[] GetAll()
+    public async Task<ProjectDao[]> GetAll(CancellationToken cancellation)
     {
-        return _projects.Values.ToArray();
+        return await _dbContext.Projects.ToArrayAsync(cancellation);
     }
 
-    public ProjectDao? GetProjectDao(Guid id)
+    public async Task<ProjectDao?> GetProjectDao(Guid id, CancellationToken cancellation)
     {
-        return _projects.GetValueOrDefault(id);
+        return await _dbContext.Projects.FirstOrDefaultAsync(x => x.Id == id, cancellation);
     }
 
-    public void SaveProject(ProjectDao project)
+    public async Task AddProject(ProjectDao project, CancellationToken cancellation)
     {
-        _projects[project.Id] = project;
+        _dbContext.Projects.Add(project);
     }
 }

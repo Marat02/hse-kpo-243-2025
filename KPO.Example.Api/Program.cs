@@ -1,4 +1,7 @@
+using KPO.CarPreOrder.Application.Extensions;
+using KPO.Example.Application.Extensions;
 using KPO.Example.Application.Services;
+using KPO.Example.Infrastructure.Extensions;
 using KPO.Example.Infrastructure.Repositories;
 using KPO.Example.Models.Projects;
 
@@ -13,6 +16,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddMediatR(t => t.RegisterServicesFromAssembly(typeof(ProjectService).Assembly));
 builder.Services.AddSingleton<IProjectRepository, ProjectRepository>();
+builder.Services.AddCarPreOrderApplication();
+builder.Services.AddCarDevelopmentApplication();
+builder.Services.AddCarDevelopmentInfrastructure(builder.Configuration["PostgresConnectionStrings"]);
 
 var app = builder.Build();
 

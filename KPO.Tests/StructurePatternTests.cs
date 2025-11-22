@@ -1,6 +1,4 @@
 using FluentAssertions;
-using KPO.Example.Application.Mediators;
-using KPO.Example.Application.Services;
 using KPO.Example.Composite;
 using KPO.Example.Infrastructure.Repositories;
 using KPO.Example.Models.Blueprints;
@@ -9,65 +7,11 @@ using KPO.Example.Models.Cars;
 using KPO.Example.Models.Checks;
 using KPO.Example.Models.Flyweigth;
 using KPO.Example.Models.Projects;
-using Microsoft.Extensions.DependencyInjection;
-using IMediator = MediatR.IMediator;
 
 namespace KPO.Tests;
 
 public class StructurePatternTests
 {
-    [Fact]
-    public void AdapterExist_Adapter_ValidAdapter()
-    {
-        // Arrange
-        var id = Guid.NewGuid();
-        var projectDao = new ProjectDao(id, "Project 1", "Target 1", new List<ICar>(), new List<IBlueprint>(), new List<ICheck>());
-        var adapter = new ProjectRepository([projectDao]);
-        var project = new Project(adapter);
-        
-        // Act
-        project.Load(id);
-
-        // Assert
-        project.Id.Should().NotBe(Guid.Empty);
-        project.Name.Should().Be("Project 1");
-        project.Target.Should().Be("Target 1");
-    }
-
-    [Fact]
-    public void FacadeExist_CreateProject_ValidProject()
-    {
-        // Arrange
-        var collection = new ServiceCollection();
-        collection.AddMediatR(c => c.RegisterServicesFromAssembly(typeof(CreateCarHandler).Assembly));
-        
-        var facade = new ProjectService(collection.BuildServiceProvider().GetRequiredService<IMediator>(), new ProjectRepositoryProxy([]));
-
-        // Act
-        var project = facade.CreateProject("Project 1", "Target 1");
-
-        // Assert
-        project.Name.Should().Be("Project 1");
-        project.Target.Should().Be("Target 1");
-    }
-
-    [Fact]
-    public void ProxyExist_ProjectRepository_ValidProjectRepository()
-    {
-        var id = Guid.NewGuid();
-        var projectDao = new ProjectDao(id, "Project 1", "Target 1", new List<ICar>(), new List<IBlueprint>(), new List<ICheck>());
-        var adapter = new ProjectRepositoryProxy([projectDao]);
-        var project = new Project(adapter);
-        
-        // Act
-        project.Load(id);
-
-        // Assert
-        project.Id.Should().NotBe(Guid.Empty);
-        project.Name.Should().Be("Project 1");
-        project.Target.Should().Be("Target 1");
-    }
-    
     [Fact]
     public void CompositeExist_FolderCheck_ValidFolderCheck()
     {

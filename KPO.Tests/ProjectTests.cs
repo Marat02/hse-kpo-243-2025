@@ -96,7 +96,7 @@ public class ProjectTests : IClassFixture<ProjectTestFixture>
         var carAbstractMethod = new CarAbstractMethod(2);
 
         //Act
-        var result = project.BuildCar(1, carAbstractMethod);
+        var result = project.BuildCar(1, "TestName", carAbstractMethod);
 
         //Assert
         Assert.True(result);
@@ -120,7 +120,7 @@ public class ProjectTests : IClassFixture<ProjectTestFixture>
         var carAbstractMethod = new BigCarAbstractMethod(carId);
 
         //Act
-        var result = project.BuildCar(blueprintId, carAbstractMethod);
+        var result = project.BuildCar(blueprintId, "TestName", carAbstractMethod);
 
         //Assert
         Assert.True(result);
@@ -143,7 +143,7 @@ public class ProjectTests : IClassFixture<ProjectTestFixture>
         var carAbstractMethod = new BigCarAbstractMethod(carId);
 
         //Act
-        var result = project.BuildCar(blueprintId, carAbstractMethod);
+        var result = project.BuildCar(blueprintId, "TestName", carAbstractMethod);
 
         //Assert
         Assert.False(result);

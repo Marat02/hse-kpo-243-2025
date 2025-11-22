@@ -20,8 +20,8 @@ public class CarsController : Controller
     /// </summary>
     /// <returns>Машина</returns>
     [HttpPost]
-    public ICar CreateCar()
+    public async Task<ICar> CreateCar(CancellationToken cancellation)
     {
-        return _projectService.CreateCar();
+        return await _projectService.CreateCar(cancellation);
     }
 }

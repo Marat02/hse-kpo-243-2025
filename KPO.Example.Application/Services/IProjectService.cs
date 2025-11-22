@@ -5,9 +5,9 @@ namespace KPO.Example.Application.Services;
 
 public interface IProjectService
 {
-    Project[] GetAllProjects();
+    Task<Project[]> GetAllProjects(CancellationToken cancellation);
     
-    Project CreateProject(string name, string target);
+    Task<Project> CreateProject(string name, string target, CancellationToken cancellation);
 
-    ICar CreateCar();
+    Task<ICar> CreateCar(CancellationToken cancellation);
 }
