@@ -36,7 +36,9 @@ public class Project
 
     private IProjectRepository _projectRepository;
     
-    private readonly IEventBus? _eventBus;
+    private IEventBus? _eventBus;
+
+    private ProjectDao? _dao;
 
     public Project()
     {
@@ -92,16 +94,11 @@ public class Project
         return true;
     }
 
-    public bool BuildCar(int blueprintId, string name, ICarAbstractMethod carAbstractMethod)
+    public bool BuildCar(int blueprintId, string name, ICarAbstractMethod? carAbstractMethod = null)
     {
         var blueprint = _blueprints.FirstOrDefault(b => b.Id == blueprintId);
-        if (blueprint == null)
-            return false;
 
-        var car = carAbstractMethod.Build(blueprint);
-
-        if (car == null)
-            return false;
+        var car = carAbstractMethod?.Build(blueprint) ?? new Car(_cars.Count + 1, blueprintId);
 
         _cars.Add(car);
         _eventBus?.Publish(new CarBuildEvent
@@ -145,16 +142,19 @@ public class Project
     
     public ProjectDao ToDao()
     {
-        return new ProjectDao(Id, Name, Target, Cars.ToArray(), Blueprints.ToArray(), Checks.ToArray());
+        _dao ??= new ProjectDao();
+        _dao.Name = Name;
+        _dao.Id = Id;
+        _dao.Target = Target;
+        return _dao;
     }
 
-    public void FromDao(ProjectDao dao)
+    public void FromDao(ProjectDao dao, IEventBus? eventBus = null)
     {
         Id = dao.Id;
         Name = dao.Name;
         Target = dao.Target;
-        _cars = dao.Cars.ToList();
-        _blueprints = dao.Blueprints.ToList();
-        _checks = dao.Checks.ToList();
+        _dao = dao;
+        _eventBus = eventBus;
     }
 }

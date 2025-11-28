@@ -1,4 +1,5 @@
 using KPO.Example.Application.Utils;
+using KPO.Example.Contracts.Events;
 using KPO.Example.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
@@ -8,7 +9,10 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddCarDevelopmentApplication(this IServiceCollection services)
     {
-        services.AddMediatR(t => t.RegisterServicesFromAssembly(typeof(ServiceCollectionExtension).Assembly));
+        services.AddMediatR(t => 
+            t.RegisterServicesFromAssemblies(
+                typeof(ServiceCollectionExtension).Assembly,
+                typeof(CarBuildEvent).Assembly));
         services.AddScoped<IEventBus, EventBus>();
         return services;
     }

@@ -1,25 +1,24 @@
 using KPO.Example.Application.Commands;
-using KPO.Example.Application.Mediators;
 using KPO.Example.Models.Cars;
 using KPO.Example.Models.Projects;
-using IMediator = MediatR.IMediator;
+using KPO.Example.Utils;
 
 namespace KPO.Example.Application.Services;
 
 public class ProjectService : IProjectService
 {
-    private readonly IMediator _mediator;
-    private readonly IProjectRepository _projectRepository;
+    private readonly IUnitOfWork _unitOfWork;
+    private readonly IEventBus _eventBus;
 
-    public ProjectService(IMediator mediator, IProjectRepository projectRepository)
+    public ProjectService(IUnitOfWork unitOfWork, IEventBus eventBus)
     {
-        _mediator = mediator;
-        _projectRepository = projectRepository;
+        _unitOfWork = unitOfWork;
+        _eventBus = eventBus;
     }
 
     public async Task<Project[]> GetAllProjects(CancellationToken cancellation)
     {
-        var daos = await _projectRepository.GetAll(cancellation);
+        var daos = await _unitOfWork.ProjectRepository.GetAll(cancellation);
         return daos.Select(dao =>
         {
             var project = new Project();
@@ -31,12 +30,30 @@ public class ProjectService : IProjectService
     public async Task<Project> CreateProject(string name, string target, CancellationToken cancellation)
     {
         var project = new CreateProjectCommand(name, target).Execute();
-        await _projectRepository.AddProject(project.ToDao(), cancellation);
-        return project;
+        await _unitOfWork.ProjectRepository.AddProject(project.ToDao(), cancellation);
+        await _unitOfWork.SaveChangesAsync(cancellation);
+;        return project;
     }
 
-    public async Task<ICar> CreateCar(CancellationToken cancellation)
+    public async Task<ICar> CreateCar(Guid id, int blueprintId, string name, CancellationToken cancellation)
     {
-        return await _mediator.Send(new CreateCarCommand(1, 1), cancellation);
+        var projectDao = await _unitOfWork.ProjectRepository.GetProjectDao(id, cancellation);
+        var project = new Project();
+        project.FromDao(projectDao, _eventBus);
+
+        project.BuildCar(blueprintId, name);
+        var car = project.Cars.First();
+        return car;
+    }
+
+    public async Task<Project> Update(Guid id, string name, string target, CancellationToken cancellation)
+    {
+        var projectDao = await _unitOfWork.ProjectRepository.GetProjectDao(id, cancellation);
+        var project = new Project();
+        project.FromDao(projectDao, _eventBus);
+        project.SetName(name);
+        project.ToDao();
+        await _unitOfWork.SaveChangesAsync(cancellation);
+        return project;
     }
 }

@@ -9,5 +9,7 @@ public interface IProjectService
     
     Task<Project> CreateProject(string name, string target, CancellationToken cancellation);
 
-    Task<ICar> CreateCar(CancellationToken cancellation);
+    Task<ICar> CreateCar(Guid id, int blueprintId, string name, CancellationToken cancellation);
+
+    Task<Project> Update(Guid id, string name, string target, CancellationToken cancellation);
 }

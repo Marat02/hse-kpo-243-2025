@@ -4,10 +4,11 @@ using KPO.Example.Models.Checks;
 
 namespace KPO.Example.Models.Projects;
 
-public record ProjectDao(
-    Guid Id,
-    string Name,
-    string Target,
-    IReadOnlyCollection<ICar> Cars,
-    IReadOnlyCollection<IBlueprint> Blueprints,
-    IReadOnlyCollection<ICheck> Checks);
+public record ProjectDao
+{
+    public Guid Id { get; set; }
+
+    public string Name { get; set; }
+
+    public string Target { get; set; }
+}

@@ -31,4 +31,17 @@ public class ProjectsController : Controller
         return (await _projectService.GetAllProjects(cancellation))
             .Select(p => new ProjectView(p.Id, p.Name, p.Target)).ToArray();
     }
+
+    [HttpPut("{id}")]
+    public async Task<ProjectView> UpdateProject(Guid id, ProjectInfo info, CancellationToken cancellation)
+    {
+        var project = await _projectService.Update(id, info.Name, info.Target, cancellation);
+        return await Task.FromResult(new ProjectView(Guid.NewGuid(), info.Name, info.Target));
+    }
+
+    [HttpPost("{id}/cars")]
+    public async Task CreateCar(Guid id, [FromBody] CarInfo carInfo, CancellationToken cancellation)
+    {
+        await _projectService.CreateCar(id, carInfo.BlueprintId, carInfo.Name, cancellation);
+    }
 }

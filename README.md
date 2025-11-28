@@ -10,3 +10,7 @@
 [Документация](https://xunit.net/docs/getting-started/netfx/visual-studio) - для xUnit.
 [FluentAssertions](https://www.nuget.org/packages/fluentassertions) - для удобного написания Assert unit тестов.
 Аналогичная библиотека для unit тестов в .net - [NUnit](https://www.nuget.org/packages/nunit)
+
+[Entity Framework](https://learn.microsoft.com/ru-ru/ef/core/) - ORM для работы с бд
+
+Предметно-ориентированное проектирование. Самое основное. Вернон Вон - начальная книга для понимания разработки, изучения DDD.

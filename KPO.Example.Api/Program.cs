@@ -15,7 +15,6 @@ builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddMediatR(t => t.RegisterServicesFromAssembly(typeof(ProjectService).Assembly));
-builder.Services.AddSingleton<IProjectRepository, ProjectRepository>();
 builder.Services.AddCarPreOrderApplication();
 builder.Services.AddCarDevelopmentApplication();
 builder.Services.AddCarDevelopmentInfrastructure(builder.Configuration["PostgresConnectionStrings"]);
@@ -35,5 +34,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+await app.Services.StartCarDevelopment();
 
 app.Run();

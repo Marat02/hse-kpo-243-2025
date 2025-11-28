@@ -25,8 +25,15 @@ public class ProjectRepository : IProjectRepository
         return await _dbContext.Projects.FirstOrDefaultAsync(x => x.Id == id, cancellation);
     }
 
-    public async Task AddProject(ProjectDao project, CancellationToken cancellation)
+    public Task AddProject(ProjectDao project, CancellationToken cancellation)
     {
         _dbContext.Projects.Add(project);
+        return Task.CompletedTask;
+    }
+
+    public Task UpdateProject(ProjectDao dao, CancellationToken cancellation)
+    {
+        _dbContext.Projects.Update(dao);
+        return Task.CompletedTask;
     }
 }

@@ -1,5 +1,6 @@
 using KPO.Example.Infrastructure.Repositories;
 using KPO.Example.Models.Projects;
+using KPO.Example.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KPO.Example.Infrastructure.Extensions;
@@ -12,6 +13,7 @@ public static class ServiceCollectionExtension
     {
         services.AddNpgsql<ExampleDbContext>(connectionString);
         services.AddScoped<IProjectRepository, ProjectRepository>();
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         return services;
     }
 }

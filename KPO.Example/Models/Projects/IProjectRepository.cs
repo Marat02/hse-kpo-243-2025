@@ -7,4 +7,6 @@ public interface IProjectRepository
     public Task<ProjectDao?> GetProjectDao(Guid id, CancellationToken cancellation);
     
     public Task AddProject(ProjectDao project, CancellationToken cancellation);
+
+    Task UpdateProject(ProjectDao dao, CancellationToken cancellation);
 }
