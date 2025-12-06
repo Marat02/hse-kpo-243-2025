@@ -1,8 +1,13 @@
 using System.Net.WebSockets;
+using KPO.CarPreOrder.Domain.Models;
+using KPO.CarPreOrder.Infrastructure;
 using KPO.Example.Api.Websocket;
+using KPO.Example.Application.Repositories;
 using KPO.Example.Application.Services;
 using KPO.Example.Contracts.Infos;
 using KPO.Example.Contracts.Views;
+using KPO.Example.Infrastructure;
+using KPO.Example.Models.Projects;
 using Microsoft.AspNetCore.Mvc;
 
 namespace KPO.Example.Api.Controllers;
@@ -13,11 +18,17 @@ public class ProjectsController : Controller
 {
     private readonly IProjectService _projectService;
     private readonly WebSocketConnectionManager _manager;
+    private readonly ExampleDbContext _exampleDbContext;
+    private readonly CarPreOrderDbContext _carPreOrderDbContext;
+    private readonly IFileRepository _fileRepository;
 
-    public ProjectsController(IProjectService projectService, WebSocketConnectionManager manager)
+    public ProjectsController(IProjectService projectService, WebSocketConnectionManager manager, ExampleDbContext exampleDbContext, CarPreOrderDbContext carPreOrderDbContext, IFileRepository fileRepository)
     {
         _projectService = projectService;
         _manager = manager;
+        _exampleDbContext = exampleDbContext;
+        _carPreOrderDbContext = carPreOrderDbContext;
+        _fileRepository = fileRepository;
     }
 
     [HttpPost]
@@ -47,6 +58,37 @@ public class ProjectsController : Controller
     public async Task CreateCar(Guid id, [FromBody] CarInfo carInfo, CancellationToken cancellation)
     {
         await _projectService.CreateCar(id, carInfo.BlueprintId, carInfo.Name, cancellation);
+    }
+
+    [HttpPost("and-cars")]
+    public async Task CreatProjectAndCar([FromBody] ProjectInfo info, 
+        CancellationToken cancellation)
+    {
+        var projectDao = new ProjectDao
+        {
+            Id = Guid.NewGuid(),
+            Name = info.Name,
+            Target = info.Target
+        };
+
+        var car = new CarModel(Guid.NewGuid(), 1, info.Name, CarType.Car);
+
+        await using var transaction = await _exampleDbContext.Database.BeginTransactionAsync(cancellation);
+        await using var transaction2 = await _carPreOrderDbContext.Database.BeginTransactionAsync(cancellation);
+
+        await _exampleDbContext.Projects.AddAsync(projectDao, cancellation);
+        await _carPreOrderDbContext.Cars.AddAsync(car, cancellation);
+        await _exampleDbContext.SaveChangesAsync(cancellation);
+        await _carPreOrderDbContext.SaveChangesAsync(cancellation);
+
+        await transaction.CommitAsync(cancellation);
+        await transaction2.CommitAsync(cancellation);
+    }
+
+    [HttpPost("file")]
+    public async Task UploadFile(IFormFile formFile, CancellationToken cancellation)
+    {
+        await _fileRepository.SaveFile(formFile.FileName, formFile.OpenReadStream(), cancellation);
     }
 
     [HttpGet]

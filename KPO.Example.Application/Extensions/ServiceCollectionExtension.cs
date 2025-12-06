@@ -1,6 +1,5 @@
-using KPO.Example.Application.Utils;
+using KPO.Example.Application.Services;
 using KPO.Example.Contracts.Events;
-using KPO.Example.Utils;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace KPO.Example.Application.Extensions;
@@ -13,7 +12,7 @@ public static class ServiceCollectionExtension
             t.RegisterServicesFromAssemblies(
                 typeof(ServiceCollectionExtension).Assembly,
                 typeof(CarBuildEvent).Assembly));
-        services.AddScoped<IEventBus, EventBus>();
+        services.AddScoped<ICarEventService, CarEventService>();
         return services;
     }
 }
