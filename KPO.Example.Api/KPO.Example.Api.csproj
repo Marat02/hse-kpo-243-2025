@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\KPO.CarPreOrder.Application\KPO.CarPreOrder.Application.csproj" />
+      <ProjectReference Include="..\KPO.CarPreOrder.Infrastructure\KPO.CarPreOrder.Infrastructure.csproj" />
       <ProjectReference Include="..\KPO.Example.Infrastructure\KPO.Example.Infrastructure.csproj" />
     </ItemGroup>
 

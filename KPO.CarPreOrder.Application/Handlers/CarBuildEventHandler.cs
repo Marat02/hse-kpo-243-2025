@@ -1,21 +1,22 @@
 using KPO.CarPreOrder.Domain.Models;
 using KPO.Example.Contracts.Events;
+using MassTransit;
 using MediatR;
 
 namespace KPO.CarPreOrder.Application.Handlers;
 
-public class CarBuildEventHandler : INotificationHandler<CarBuildEvent>
+public class CarBuildEventHandler : IConsumer<CarBuildEvent>
 {
-    public Task Handle(CarBuildEvent notification, CancellationToken cancellationToken)
+    public Task Consume(ConsumeContext<CarBuildEvent> context)
     {
-        var type = notification.Type switch
+        var type = context.Message.Type switch
         {
             CarBuildType.Car => CarType.Car,
             CarBuildType.BigCar => CarType.BigCar,
             _ => throw new ArgumentOutOfRangeException()
         };
 
-        var car = new CarModel(Guid.NewGuid(), notification.Id, notification.Name, type);
+        var car = new CarModel(Guid.NewGuid(), context.Message.Id, context.Message.Name, type);
         return Task.CompletedTask;
     }
 }

@@ -4,8 +4,37 @@
     build:
       context: .
       dockerfile: KPO.Example.Api/Dockerfile
+    environment:
+      - PostgresConnectionStrings=Host=postgres;Port=5432;Database=kpo;Username=postgres;Password=password
+      - RabbitMq__Host=rabbitmq-host
+      - RabbitMq__Username=user
+      - RabbitMq__Password=password
     ports:
       - "8080:8080"
+    networks:
+      - kpo-network
+  
+  kpo.example.gateway:
+    image: kpo.example.gateway
+    build:
+      context: .
+      dockerfile: KPO.Example.Gateway/Dockerfile
+    environment:
+      - CarDevelopmentClientSettings__BaseAddress=http://kpo.example.api:8080/api/
+    ports:
+      - "8082:8080"
+    networks:
+      - kpo-network
+  
+  rabbitmq:
+    image: rabbitmq:3.13-management
+    hostname: rabbitmq-host
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
     networks:
       - kpo-network
      

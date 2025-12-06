@@ -19,3 +19,22 @@ services:
     - "/Users/m.kaloev/Projects/KPO.Example/KPO.Example:/src:rw"
     - "/Users/m.kaloev/.nuget/packages:/home/app/.nuget/packages"
     working_dir: "/app"
+  kpo.example.gateway:
+    build:
+      context: "/Users/m.kaloev/Projects/KPO.Example/KPO.Example"
+      dockerfile: "KPO.Example.Gateway/Dockerfile"
+      target: "base"
+    command: []
+    entrypoint:
+    - "dotnet"
+    - "/app/bin/Debug/net9.0/KPO.Example.Gateway.dll"
+    environment:
+      ASPNETCORE_ENVIRONMENT: "Development"
+      DOTNET_USE_POLLING_FILE_WATCHER: "true"
+    image: "kpo.example.gateway:dev"
+    ports: []
+    volumes:
+    - "/Users/m.kaloev/Projects/KPO.Example/KPO.Example/KPO.Example.Gateway:/app:rw"
+    - "/Users/m.kaloev/Projects/KPO.Example/KPO.Example:/src:rw"
+    - "/Users/m.kaloev/.nuget/packages:/home/app/.nuget/packages"
+    working_dir: "/app"

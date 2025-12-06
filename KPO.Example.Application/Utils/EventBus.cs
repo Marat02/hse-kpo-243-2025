@@ -1,20 +1,21 @@
 using KPO.DDD.Basic;
 using KPO.Example.Utils;
+using MassTransit;
 using MediatR;
 
 namespace KPO.Example.Application.Utils;
 
 public class EventBus : IEventBus
 {
-    private readonly IMediator _mediator;
+    private readonly IBus _bus;
 
-    public EventBus(IMediator mediator)
+    public EventBus(IBus bus)
     {
-        _mediator = mediator;
+        _bus = bus;
     }
 
     public void Publish<T>(T @event) where T : IEvent
     {
-        _mediator.Publish(@event);
+        _bus.Publish(@event);
     }
 }

@@ -1,4 +1,6 @@
 using KPO.CarPreOrder.Application.Extensions;
+using KPO.CarPreOrder.Infrastructure.Extensions;
+using KPO.Example.Api.Websocket;
 using KPO.Example.Application.Extensions;
 using KPO.Example.Application.Services;
 using KPO.Example.Infrastructure.Extensions;
@@ -14,10 +16,12 @@ builder.Services.AddControllers();
 builder.Services.AddOpenApi();
 builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<IProjectService, ProjectService>();
-builder.Services.AddMediatR(t => t.RegisterServicesFromAssembly(typeof(ProjectService).Assembly));
+builder.Services.AddMediatR(t => t.RegisterServicesFromAssemblies(typeof(ProjectService).Assembly, typeof(Program).Assembly));
 builder.Services.AddCarPreOrderApplication();
 builder.Services.AddCarDevelopmentApplication();
 builder.Services.AddCarDevelopmentInfrastructure(builder.Configuration["PostgresConnectionStrings"]);
+builder.Services.AddCarPreOrderInfrastructure(builder.Configuration);
+builder.Services.AddSingleton<WebSocketConnectionManager>();
 
 var app = builder.Build();
 
@@ -28,6 +32,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
     app.UseSwagger();
 }
+
+app.UseWebSockets();
 
 app.UseHttpsRedirection();
 
