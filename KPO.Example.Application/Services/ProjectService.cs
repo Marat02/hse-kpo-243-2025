@@ -43,6 +43,7 @@ public class ProjectService : IProjectService
 
         project.BuildCar(blueprintId, name);
         var car = project.Cars.First();
+        await _unitOfWork.SaveChangesAsync(cancellation);
         return car;
     }
 

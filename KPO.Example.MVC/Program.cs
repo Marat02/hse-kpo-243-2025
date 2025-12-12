@@ -11,7 +11,7 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddScoped<IProjectService, ProjectService>();
 builder.Services.AddMediatR(t => t.RegisterServicesFromAssembly(typeof(ProjectService).Assembly));
 builder.Services.AddCarDevelopmentApplication();
-builder.Services.AddCarDevelopmentInfrastructure(builder.Configuration["PostgresConnectionStrings"]);
+builder.Services.AddCarDevelopmentInfrastructure(builder.Configuration, builder.Configuration["PostgresConnectionStrings"]);
 
 var app = builder.Build();
 
