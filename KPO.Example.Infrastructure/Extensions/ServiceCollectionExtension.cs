@@ -19,6 +19,8 @@ public static class ServiceCollectionExtension
         services.AddNpgsql<ExampleDbContext>(connectionString);
         services.AddScoped<IProjectRepository, ProjectRepository>();
         services.AddScoped<ICarEventRepository, CarEventRepository>();
+        services.AddScoped<IEntityCountRepository, EntityCountRepository>();
+        services.AddScoped<IProcessedEventRepository, ProcessedEventRepository>();
 
         services.AddScoped<UnitOfWork>();
         services.AddScoped<IUnitOfWork>(t => t.GetRequiredService<UnitOfWork>());
@@ -34,6 +36,13 @@ public static class ServiceCollectionExtension
                     ServiceURL = configuration["S3:Endpoint"],
                     ForcePathStyle = true
                 }));
+
+        services.AddStackExchangeRedisCache(options =>
+        {
+            options.Configuration = configuration["Redis:ConnectionString"];
+            options.InstanceName = configuration["Redis:InstanceName"];
+        });
+        
         return services;
     }
 }

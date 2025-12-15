@@ -14,20 +14,6 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<ICarModelRepository, CarModelRepository>();
         services.AddNpgsql<CarPreOrderDbContext>(configuration["CarPreOrderPostgresConnectionStrings"]);
-        services.AddMassTransit(t =>
-        {
-            t.UsingRabbitMq((context, cfg) =>
-            {
-                cfg.Host(configuration["RabbitMq:Host"], x =>
-                {
-                    x.Username(configuration["RabbitMq:Username"]);
-                    x.Password(configuration["RabbitMq:Password"]);
-                });
-                cfg.ConfigureEndpoints(context);
-            });
-
-            t.AddConsumers(typeof(CarBuildEventHandler).Assembly);
-        });
         
         return services;
     }

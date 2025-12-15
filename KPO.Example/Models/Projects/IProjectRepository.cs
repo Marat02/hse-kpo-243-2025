@@ -9,4 +9,8 @@ public interface IProjectRepository
     public Task AddProject(ProjectDao project, CancellationToken cancellation);
 
     Task UpdateProject(ProjectDao dao, CancellationToken cancellation);
+    
+    Task<int> CountAll(CancellationToken cancellation);
+
+    Task Remove(ProjectDao project, CancellationToken cancellation);
 }

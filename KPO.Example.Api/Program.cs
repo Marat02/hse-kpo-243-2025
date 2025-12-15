@@ -1,11 +1,14 @@
 using Hangfire;
 using Hangfire.PostgreSql;
 using KPO.CarPreOrder.Application.Extensions;
+using KPO.CarPreOrder.Application.Handlers;
 using KPO.CarPreOrder.Infrastructure.Extensions;
 using KPO.Example.Api.Websocket;
+using KPO.Example.Application.Consumers;
 using KPO.Example.Application.Extensions;
 using KPO.Example.Application.Services;
 using KPO.Example.Infrastructure.Extensions;
+using MassTransit;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +27,21 @@ builder.Services.AddCarDevelopmentApplication();
 builder.Services.AddCarDevelopmentInfrastructure(builder.Configuration, builder.Configuration["PostgresConnectionStrings"]);
 builder.Services.AddCarPreOrderInfrastructure(builder.Configuration);
 builder.Services.AddSingleton<WebSocketConnectionManager>();
+
+builder.Services.AddMassTransit(t =>
+{
+    t.UsingRabbitMq((context, cfg) =>
+    {
+        cfg.Host(builder.Configuration["RabbitMq:Host"], x =>
+        {
+            x.Username(builder.Configuration["RabbitMq:Username"]);
+            x.Password(builder.Configuration["RabbitMq:Password"]);
+        });
+        cfg.ConfigureEndpoints(context);
+    });
+
+    t.AddConsumers(typeof(CarBuildEventHandler).Assembly, typeof(ProjectCreatedConsumer).Assembly);
+});
 
 var app = builder.Build();
 

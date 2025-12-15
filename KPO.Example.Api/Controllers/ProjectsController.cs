@@ -33,11 +33,23 @@ public class ProjectsController : Controller
         return new ProjectView(project.Id, project.Name, project.Target);
     }
 
+    [HttpDelete("{id}")]
+    public async Task DeleteProject(Guid id, CancellationToken cancellation)
+    {
+        await _projectService.DeleteProject(id, cancellation);
+    }
+
     [HttpGet]
     public async Task<ProjectView[]> GetProjects(CancellationToken cancellation)
     {
         return (await _projectService.GetAllProjects(cancellation))
             .Select(p => new ProjectView(p.Id, p.Name, p.Target)).ToArray();
+    }
+
+    [HttpGet("count")]
+    public async Task<ProjectCountView> GetProjectCount(CancellationToken cancellation)
+    {
+        return await _projectService.GetProjectCount(cancellation);
     }
 
     [HttpPut("{id}")]

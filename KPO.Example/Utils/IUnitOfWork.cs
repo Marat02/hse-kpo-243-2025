@@ -9,5 +9,9 @@ public interface IUnitOfWork
 {
     IProjectRepository ProjectRepository { get; }
 
+    IEntityCountRepository EntityCountRepository { get; }
+
+    IProcessedEventRepository ProcessedEventRepository { get; set; }
+
     Task SaveChangesAsync(CancellationToken cancellation);
 }
